@@ -8,25 +8,25 @@ This repository contains material for the analysis, simulation, and optimization
 ```
 ├── logs/
 │   ├── cufile.log
-│   └── README.md
+│   └── README.md         # Log files and their description
 ├── notebooks/
 │   ├── execution_delay_test.ipynb
 │   ├── grid_search_optimization.ipynb
 │   ├── manual.ipynb
 │   ├── mkt orders.ipynb
-│   └── README.md
+│   └── README.md         # Notebooks and their description
 ├── results/
-│   ├── bollinger_bias_free_results_20250624_152148.csv
-│   ├── bollinger_optimization_results_20250624_143023.csv
-│   ├── zero_bias_bollinger_results_20250624_152150.csv
-│   └── README.md
+│   ├── bollinger_bias_free_results_*.csv
+│   ├── bollinger_optimization_results_*.csv
+│   ├── zero_bias_bollinger_results_*.csv
+│   └── README.md         # Results and their description
 ├── README.md (this file)
 ```
 
 ### Folder descriptions
-- **logs/**: contains log files generated during runs and simulations.
-- **notebooks/**: collects all Jupyter notebooks for analysis, testing, and strategy optimization.
-- **results/**: contains the results of simulations and optimizations in CSV format.
+- **logs/**: Log files generated during runs and simulations. See `logs/README.md` for details.
+- **notebooks/**: Jupyter notebooks for analysis, testing, and strategy optimization. See `notebooks/README.md` for details.
+- **results/**: Output of simulations and optimizations in CSV format. See `results/README.md` for details.
 
 ---
 
