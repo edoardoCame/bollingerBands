@@ -1,8 +1,9 @@
+
 # Bollinger Bands Strategy - Repository
 
-Questa repository contiene materiale per l'analisi, la simulazione e l'ottimizzazione di strategie di trading basate sulle Bollinger Bands.
+This repository contains material for the analysis, simulation, and optimization of trading strategies based on Bollinger Bands.
 
-## Struttura della repository
+## Repository structure
 
 ```
 ├── logs/
@@ -19,14 +20,14 @@ Questa repository contiene materiale per l'analisi, la simulazione e l'ottimizza
 │   ├── bollinger_optimization_results_20250624_143023.csv
 │   ├── zero_bias_bollinger_results_20250624_152150.csv
 │   └── README.md
-├── README.md (questo file)
+├── README.md (this file)
 ```
 
-### Descrizione delle cartelle
-- **logs/**: contiene i file di log generati durante le esecuzioni e le simulazioni.
-- **notebooks/**: raccoglie tutti i notebook Jupyter per analisi, test e ottimizzazione delle strategie.
-- **results/**: contiene i risultati delle simulazioni e delle ottimizzazioni in formato CSV.
+### Folder descriptions
+- **logs/**: contains log files generated during runs and simulations.
+- **notebooks/**: collects all Jupyter notebooks for analysis, testing, and strategy optimization.
+- **results/**: contains the results of simulations and optimizations in CSV format.
 
 ---
 
-Per maggiori dettagli, consulta i README presenti in ciascuna cartella.
+For more details, see the README files in each folder.

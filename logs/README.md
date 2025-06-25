@@ -1,3 +1,3 @@
 # Log
 
-Questa cartella contiene i file di log generati durante l'esecuzione degli script o delle simulazioni. I log sono utili per il debug e il monitoraggio delle attività svolte dal sistema.
+This folder contains the log files generated during the execution of scripts or simulations. Logs are useful for debugging and monitoring the activities performed by the system.

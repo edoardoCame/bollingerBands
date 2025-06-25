@@ -1,15 +1,16 @@
+
 # Notebooks
 
-Questa cartella contiene tutti i notebook Jupyter utilizzati per l'analisi, la sperimentazione e l'ottimizzazione delle strategie di Bollinger Bands. Ogni notebook affronta aspetti diversi del progetto, come test di esecuzione, ottimizzazione tramite grid search e documentazione manuale delle procedure.
+This folder contains all the Jupyter notebooks used for the analysis, experimentation, and optimization of Bollinger Bands strategies. Each notebook addresses different aspects of the project, such as execution delay testing, grid search optimization, and manual documentation of procedures.
 
-## Descrizione dei notebook presenti
+## Description of the notebooks
 
-- **execution_delay_test.ipynb**: Analizza e misura l'impatto del ritardo di esecuzione degli ordini sulle performance della strategia. Utile per valutare la robustezza della strategia in condizioni di mercato realistiche.
+- **execution_delay_test.ipynb**: Analyzes and measures the impact of order execution delay on the strategy's performance. Useful for evaluating the robustness of the strategy under realistic market conditions.
 
-- **grid_search_optimization.ipynb**: Esegue una ricerca a griglia (grid search) per ottimizzare i parametri delle Bollinger Bands. Permette di identificare le combinazioni di parametri che massimizzano le performance della strategia.
+- **grid_search_optimization.ipynb**: Performs a grid search to optimize the parameters of the Bollinger Bands. Allows identification of parameter combinations that maximize the strategy's performance.
 
-- **manual.ipynb**: Fornisce una guida dettagliata all'utilizzo dei notebook e delle funzioni principali del progetto. Include esempi pratici e spiegazioni passo-passo per facilitare l'utilizzo anche a chi si avvicina per la prima volta al codice.
+- **manual.ipynb**: Provides a detailed guide to using the notebooks and the main functions of the project. Includes practical examples and step-by-step explanations to help even those new to the code.
 
-- **mkt orders.ipynb**: Esplora la gestione e l'esecuzione degli ordini di mercato all'interno della strategia. Analizza le differenze tra ordini di mercato e altri tipi di ordini, con esempi applicativi.
+- **mkt orders.ipynb**: Explores the management and execution of market orders within the strategy. Analyzes the differences between market orders and other types of orders, with practical examples.
 
-In questa cartella troverai anche i risultati delle analisi e i log generati durante le varie sperimentazioni.
+In this folder you will also find the results of the analyses and the logs generated during the various experiments.
