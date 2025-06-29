@@ -2,33 +2,72 @@
 
 # Notebooks
 
-This folder contains all Jupyter notebooks for the analysis, experimentation, and optimization of Bollinger Bands trading strategies. Each notebook addresses a specific aspect of the project, from parameter optimization to execution analysis, order handling, and practical usage. The project emphasizes GPU-accelerated processing using cuDF and cuML libraries.
+This folder contains Jupyter notebooks for advanced trading strategy analysis, portfolio optimization, and MetaTrader 5 integration. The project emphasizes GPU-accelerated processing using cuDF and cuML libraries for high-performance financial computations.
 
 ## Notebook Descriptions
 
-- **Asset_Explore.ipynb**: Explores and visualizes asset data, providing insights into price behavior and volatility before strategy development. Analyzes the currency pairs available in the data folder.
+### Core Analysis Notebooks
 
-- **bollinger_backtester.ipynb**: Implements and validates the Bollinger Bands strategy using the Backtrader library. Provides comparison and validation against custom implementations with comprehensive performance metrics.
+- **portfolioopt.ipynb**: **Portfolio Optimization and Modern Portfolio Theory**
+  - Implements Markowitz mean-variance optimization using GPU acceleration
+  - Efficient frontier construction and portfolio risk analysis
+  - Multi-asset portfolio allocation with constraints
+  - Risk-return optimization using cuML for matrix operations
+  - VaR and CVaR risk metrics calculation
 
-- **execution_delay_test.ipynb**: Evaluates the effect of order execution delays on strategy performance, simulating realistic market conditions to assess robustness and slippage impact.
+- **tick_backtester.ipynb**: **Advanced Tick-Level Backtesting**
+  - High-resolution tick-level backtesting with GPU acceleration
+  - Realistic market microstructure simulation
+  - Advanced slippage modeling and execution analysis
+  - Performance metrics with drawdown analysis
+  - Memory-optimized processing for large tick datasets
 
-- **grid_search_optimization.ipynb**: Performs a comprehensive grid search to optimize Bollinger Bands parameters, identifying the best-performing parameter sets for the strategy using GPU-accelerated processing.
+### MetaTrader 5 Integration
 
-- **manual.ipynb**: User guide for the project, with detailed instructions, practical examples, and explanations of main functions and workflows.
+- **MT5 REPORTS/**: **Complete MT5 Analysis Suite**
+  - **mt5_analysis_clean.ipynb**: Universal analyzer for MT5 optimization results
+  - **deals.ipynb**: Detailed trade deal analysis and performance breakdown
+  - **README.md**: Comprehensive guide for MT5 integration and usage
 
-- **mkt orders.ipynb**: Investigates the handling and execution of market orders, comparing them to other order types with hands-on examples and performance analysis.
+## Subfolder Structure
 
-- **mt5_analysis.ipynb**: Analyzes real trading data exported from MetaTrader 5 (MT5) for the EUR/GBP currency pair. Includes outlier detection, trade duration analysis, and performance visualization of actual trading results.
+### MT5 REPORTS/
+Contains specialized tools for MetaTrader 5 analysis:
+- Universal XML parser for any MT5 optimization export
+- Automated strategy performance analysis
+- Parameter optimization visualization
+- Risk-adjusted performance metrics
 
-- **tick_backtest.ipynb**: Runs tick-level backtests of the Bollinger Bands strategy, enabling high-resolution performance evaluation and slippage analysis with realistic market microstructure simulation.
+## Key Features
 
-## Asset Search Subfolder
+### GPU Acceleration
+- **cuDF/cuML Integration**: High-performance data processing and machine learning
+- **Memory Optimization**: Efficient handling of large financial datasets
+- **Parallel Processing**: Multi-threaded computations for portfolio optimization
 
-- **asset_search/NZDJPY.csv**: Contains search results and analysis data for the NZD/JPY currency pair.
+### Advanced Analytics
+- **Modern Portfolio Theory**: Markowitz optimization with GPU acceleration
+- **Risk Metrics**: VaR, CVaR, Sharpe ratio, maximum drawdown
+- **Tick-Level Analysis**: Microsecond-precision backtesting
+- **MT5 Integration**: Universal analysis for any MetaTrader 5 export
+
+### Visualization
+- **Interactive Charts**: Plotly-based dashboards for strategy analysis
+- **Risk Visualization**: Efficient frontier plotting and correlation matrices
+- **Performance Dashboards**: Real-time metrics and trade analysis
 
 ## Usage Notes
 
 - All notebooks are designed to work with GPU-accelerated libraries (cuDF, cuML) when available
-- Data files are automatically loaded from the `../data/` directory
+- Automatic fallback to CPU processing if GPU is not available
 - Notebooks include comprehensive error handling and performance optimization
 - Results and visualizations are generated with high-resolution plotting capabilities
+- Universal compatibility with various data formats and sources
+
+## Quick Start
+
+1. **Portfolio Analysis**: Start with `portfolioopt.ipynb` for modern portfolio theory
+2. **Backtesting**: Use `tick_backtester.ipynb` for advanced strategy testing
+3. **MT5 Analysis**: Process MetaTrader 5 results with tools in `MT5 REPORTS/`
+
+For detailed documentation on each component, see the respective README files in subfolders.
