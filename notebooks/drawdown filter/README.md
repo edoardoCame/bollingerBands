@@ -1,8 +1,21 @@
-# 📊 Volatility Impact Analysis Suite
+# 📈 Volatility Impact Analysis Suite
 
 ## 🎯 Overview
 
 This directory contains advanced tools for analyzing volatility effects on trading strategies, market regime classification, and autocorrelation studies. The suite focuses on understanding how different market conditions affect strategy performance and provides predictive models for market regime identification.
+
+## Table of Contents
+- [Analysis Tools](#analysis-tools)
+- [Technical Methodology](#technical-methodology)
+- [Analysis Capabilities](#analysis-capabilities)
+- [Technical Requirements](#technical-requirements)
+- [Usage Guide](#usage-guide)
+- [Expected Outputs](#expected-outputs)
+- [Analysis Insights](#analysis-insights)
+- [Performance Optimization](#performance-optimization)
+- [Troubleshooting](#troubleshooting)
+- [Further Reading](#further-reading)
+- [Contributing](#contributing)
 
 ## 📁 Analysis Tools
 

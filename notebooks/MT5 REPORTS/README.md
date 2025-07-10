@@ -1,8 +1,22 @@
-# 📊 MetaTrader 5 Analysis Suite - Universal Tools
+# 📈 MetaTrader 5 Analysis Suite - Universal Tools
 
 ## 🎯 Overview
 
 This directory contains a comprehensive suite of tools for analyzing MetaTrader 5 (MT5) trading results, optimization outputs, and performance data. The tools are designed to work universally with any MT5 export format and provide automated analysis pipelines.
+
+## Table of Contents
+- [Available Tools](#available-tools)
+- [Quick Start Guide](#quick-start-guide)
+- [Universal Compatibility Features](#universal-compatibility-features)
+- [Analysis Capabilities](#analysis-capabilities)
+- [Technical Requirements](#technical-requirements)
+- [Sample Output Analysis](#sample-output-analysis)
+- [Interactive Features](#interactive-features)
+- [Example Usage Scenarios](#example-usage-scenarios)
+- [Troubleshooting Guide](#troubleshooting-guide)
+- [Advanced Features](#advanced-features)
+- [Success Stories](#success-stories)
+- [Support and Community](#support-and-community)
 
 ## 📁 Available Tools
 

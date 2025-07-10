@@ -1,8 +1,15 @@
-
-
 # Notebooks Directory
 
 This folder contains Jupyter notebooks for advanced trading strategy analysis, portfolio optimization, volatility studies, and MetaTrader 5 integration. The project focuses on Bollinger Bands strategies with comprehensive market regime analysis and risk management.
+
+## Table of Contents
+- [Notebook Categories](#notebook-categories)
+- [Key Features by Category](#key-features-by-category)
+- [Data Requirements](#data-requirements)
+- [Technical Implementation](#technical-implementation)
+- [Usage Workflow](#usage-workflow)
+- [Best Practices](#best-practices)
+- [Troubleshooting](#troubleshooting)
 
 ## Notebook Categories
 

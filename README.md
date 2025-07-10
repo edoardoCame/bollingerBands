@@ -1,7 +1,18 @@
-
 # Bollinger Bands Trading Strategy Analysis
 
 Comprehensive trading strategy analysis and optimization system based on Bollinger Bands indicators. This project implements high-performance financial data processing using GPU-accelerated libraries (cuDF, cuML) and provides extensive backtesting capabilities from tick-level to minute-level data analysis.
+
+## Table of Contents
+- [Repository Structure](#repository-structure)
+- [Project Components](#project-components)
+- [Technical Features](#technical-features)
+- [Quick Start Guide](#quick-start-guide)
+- [Requirements](#requirements)
+- [Data Sources](#data-sources)
+- [Documentation Structure](#documentation-structure)
+- [Performance Notes](#performance-notes)
+- [Contributing](#contributing)
+- [Contact](#contact)
 
 ## Repository Structure
 
@@ -177,6 +188,12 @@ When adding new notebooks or analysis:
 3. Add sample data or clear data source instructions
 4. Update relevant README files
 5. Test with various data scenarios
+
+## Contact
+
+For questions, suggestions, or contributions, please contact:
+- Project Maintainer: [Your Name] (<your.email@example.com>)
+- GitHub Issues: Please open an issue for bug reports or feature requests.
 
 ---
 
