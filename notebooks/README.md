@@ -68,123 +68,16 @@ This folder contains Jupyter notebooks for advanced trading strategy analysis, p
 - **Equal-Weight Strategy**: Diversified portfolio across multiple currency pairs
 - **Weekly Rebalancing**: Systematic rebalancing to maintain target allocations
 - **Risk Metrics**: Comprehensive risk assessment including drawdown analysis
-- **Performance Comparison**: Individual strategies vs diversified portfolio
+# Notebooks
 
-### Market Regime Analysis
-- **Rigorous Methodology**: Prevents lookahead bias with proper temporal splitting
-- **Machine Learning**: Random Forest classifier for regime prediction
-- **Interactive Dashboards**: Real-time visualization of regime transitions
-- **Statistical Foundation**: Based on autocorrelation and variance ratio tests
+Questa cartella contiene tutti i notebook di analisi, ottimizzazione e strumenti di supporto del progetto.
 
-### Volatility Studies
-- **Rolling Analysis**: Time-varying volatility and correlation measures
-- **Impact Assessment**: How volatility affects strategy performance
-- **Visualization Tools**: Advanced plotting capabilities for volatility analysis
+Contenuto:
 
-### MetaTrader 5 Integration
-- **Universal Compatibility**: Works with any MT5 XML export format
-- **Automated Analysis**: Complete analysis pipeline from data import to recommendations
-- **Error Handling**: Robust processing of various MT5 export formats
-- **Performance Ranking**: Automatic identification of best-performing strategies
+- MT5 REPORTS/ : Analisi risultati MetaTrader 5
+- risk management/ : Notebook su gestione del rischio e filtri
+- temp tools/ : Strumenti temporanei e file di supporto
+- portfolioopt.ipynb : Ottimizzazione di portafoglio
+- volatility_check.ipynb : Analisi base della volatilità
+- README.md : Questo file
 
-## Data Requirements
-
-### Sample Data Included
-- **EURCHF BARS 30m.csv**: Historical 30-minute EURCHF price data
-- **Balance CSV files**: Strategy performance results from backtesting
-- **MT5 XML exports**: Sample MetaTrader 5 optimization results
-
-### Data Format Requirements
-- **CSV Files**: Must include datetime and balance columns
-- **XML Files**: Standard MT5 optimization export format
-- **Price Data**: OHLC format with datetime indexing
-
-## Technical Implementation
-
-### Machine Learning
-- **Scikit-learn**: Random Forest classifiers for regime prediction
-- **Feature Engineering**: Autocorrelation and variance ratio indicators
-- **Model Validation**: Proper train/test splitting with temporal constraints
-- **Performance Metrics**: Accuracy, precision, recall, and confusion matrices
-
-### Visualization
-- **Plotly**: Interactive dashboards and 3D visualizations
-- **Matplotlib/Seaborn**: Statistical plots and correlation matrices
-- **Real-time Updates**: Dynamic filtering and zoom capabilities
-- **Export Options**: High-resolution image and HTML exports
-
-### Data Processing
-- **Pandas**: Efficient data manipulation and analysis
-- **NumPy**: Mathematical computations and array operations
-- **Memory Optimization**: Efficient handling of large datasets
-- **Error Handling**: Comprehensive exception management
-
-## Usage Workflow
-
-### 1. Portfolio Analysis
-```bash
-# Start with portfolio optimization
-jupyter notebook portfolioopt.ipynb
-```
-
-### 2. Market Regime Analysis
-```bash
-# Analyze market regimes
-jupyter notebook volatility\ impact/regimes.ipynb
-```
-
-### 3. Volatility Studies
-```bash
-# Study volatility effects
-jupyter notebook volatility\ impact/autocorrelation.ipynb
-```
-
-### 4. MT5 Integration
-```bash
-# Analyze MT5 results
-jupyter notebook MT5\ REPORTS/mt5_analysis_clean.ipynb
-```
-
-### 5. Balance Visualization
-```bash
-# Visualize performance
-jupyter notebook volatility\ impact/visualizzazioni\ balance.ipynb
-```
-
-## Best Practices
-
-### Data Handling
-- Always check data quality before analysis
-- Handle missing values appropriately
-- Use proper datetime indexing
-- Validate data ranges and formats
-
-### Analysis Methodology
-- Prevent lookahead bias in predictive models
-- Use proper train/test splitting
-- Validate results with multiple metrics
-- Document assumptions and limitations
-
-### Visualization
-- Use interactive plots for exploratory analysis
-- Include proper labels and legends
-- Export high-resolution images for reports
-- Implement zoom and filtering capabilities
-
-## Troubleshooting
-
-### Common Issues
-- **Memory errors**: Reduce data size or use chunking
-- **Import errors**: Check package installations
-- **File not found**: Verify file paths and extensions
-- **Visualization not showing**: Restart kernel and re-run cells
-
-### Performance Optimization
-- Use vectorized operations where possible
-- Implement data caching for repeated operations
-- Consider GPU acceleration for large datasets
-- Profile code to identify bottlenecks
-
----
-
-For detailed documentation on each component, see the README files in the respective subfolders.

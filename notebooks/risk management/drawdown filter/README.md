@@ -1,62 +1,19 @@
-# 📈 Volatility Impact Analysis Suite
+# Navigation
 
-## 🎯 Overview
+For related documentation, see:
+- **../../README.md** – Notebooks directory overview
+- **../../MT5 REPORTS/README.md** – MT5 analysis suite
 
-This directory contains advanced tools for analyzing volatility effects on trading strategies, market regime classification, and autocorrelation studies. The suite focuses on understanding how different market conditions affect strategy performance and provides predictive models for market regime identification.
+# drawdown filter
 
-## Table of Contents
-- [Analysis Tools](#analysis-tools)
-- [Technical Methodology](#technical-methodology)
-- [Analysis Capabilities](#analysis-capabilities)
-- [Technical Requirements](#technical-requirements)
-- [Usage Guide](#usage-guide)
-- [Expected Outputs](#expected-outputs)
-- [Analysis Insights](#analysis-insights)
-- [Performance Optimization](#performance-optimization)
-- [Troubleshooting](#troubleshooting)
-- [Further Reading](#further-reading)
-- [Contributing](#contributing)
+Questa cartella contiene notebook e strumenti per l’analisi della volatilità, dei regimi di mercato e dei drawdown.
 
-## 📁 Analysis Tools
-
-### 🌟 Primary Analysis Notebooks
-
-#### `regimes.ipynb` - **Market Regime Classification** ⭐
-- **Purpose**: Classify market regimes as Trend or Mean-Reversion using statistical indicators
-- **Methodology**: 
-  - Autocorrelation analysis with rolling windows
-  - Variance ratio tests (Lo-MacKinlay implementation)
-  - Random Forest classifier for regime prediction
-  - Rigorous temporal splitting to prevent lookahead bias
-- **Key Features**:
-  - Weekly (240 bars) and monthly (1008 bars) regime analysis
-  - Interactive Plotly visualizations
-  - Performance metrics and model validation
-  - Comprehensive error handling and data validation
-
-#### `autocorrelation.ipynb` - **Autocorrelation Analysis**
-- **Purpose**: Analyze serial correlation in price series and returns
-- **Features**:
-  - Rolling autocorrelation computation
-  - Lag analysis and significance testing
-  - Market microstructure effects
-  - Interactive visualization dashboards
-- **Applications**:
-  - Momentum vs mean-reversion identification
-  - Optimal strategy parameter selection
-  - Market efficiency analysis
-
-#### `visualizzazioni balance.ipynb` - **Balance Visualization Tools**
-- **Purpose**: Advanced visualization of trading balance curves and performance metrics
-- **Features**:
-  - Interactive balance curve plotting
-  - Drawdown analysis and visualization
-  - Performance comparison between strategies
-  - Multi-timeframe analysis capabilities
-- **Outputs**:
-  - High-resolution performance charts
-  - Drawdown period identification
-  - Risk-return scatter plots
+Contenuto:
+- autocorrelation.ipynb : Analisi autocorrelazione
+- consecutive wins.ipynb : Analisi sequenze vincenti
+- regimes.ipynb : Classificazione regimi di mercato
+- rolling dd.ipynb : Analisi drawdown rolling
+- README.md : Questo file
 
 ### 📊 Data Files
 
