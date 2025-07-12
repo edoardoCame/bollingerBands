@@ -9,6 +9,9 @@ import pandas as pd
 import numpy as np
 from numba import njit
 from typing import List, Tuple, Dict, Any, Optional
+import concurrent.futures
+import os
+from tqdm import tqdm
 
 
 @njit
@@ -275,3 +278,244 @@ class Backtest:
         print(f"Worst Trade: {self.performance_metrics['worst_trade']:.2f} pips")
         print(f"Maximum Drawdown: {self.performance_metrics['max_drawdown']:.2f} pips")
         print("=" * 40)
+
+
+# Optimization functions - moved outside the class
+def process_params_worker(params: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Worker function that calculates performance for a parameter set.
+    
+    This function is executed in parallel for each parameter combination
+    during multicore optimization.
+    
+    Parameters:
+    params (Dict[str, Any]): Dictionary containing parameters to test:
+        - 'window': Time window for Bollinger Bands
+        - 'num_std_dev': Number of standard deviations
+        - 'minute_data': DataFrame with market data
+        - 'price_column': Name of the price column to use
+    
+    Returns:
+    Dict[str, Any]: Dictionary with performance results:
+        - 'window': Tested time window
+        - 'num_std_dev': Tested standard deviations
+        - 'total_trades': Total number of trades
+        - 'total_pnl': Total PnL in pips
+        - 'win_rate': Percentage of winning trades
+        - 'max_drawdown': Maximum drawdown
+    """
+    # Local import to avoid pickling issues
+    from backtester import indicators
+    
+    w = params['window']
+    s = params['num_std_dev']
+    minute_data = params['minute_data']
+    price_column = params['price_column']
+    
+    # Calculate Bollinger Bands for current parameters
+    df = indicators.bollinger_bands(
+        minute_data, 
+        price_column=price_column, 
+        window=w, 
+        num_std_dev=s
+    ).dropna()
+    
+    # Return empty results if insufficient data
+    if len(df) <= 100:
+        return {
+            'window': w,
+            'num_std_dev': s,
+            'total_trades': 0,
+            'total_pnl': 0.0,
+            'win_rate': 0.0,
+            'max_drawdown': 0.0
+        }
+    
+    # Execute backtest
+    bt = Backtest(df)
+    bt.run()
+    m = bt.performance_metrics
+    
+    return {
+        'window': w,
+        'num_std_dev': s,
+        'total_trades': m.get('total_trades', 0),
+        'total_pnl': m.get('total_pnl', 0.0),
+        'win_rate': m.get('win_rate', 0.0),
+        'max_drawdown': m.get('max_drawdown', 0.0)
+    }
+
+
+def optimize_parameters(
+    minute_data: pd.DataFrame,
+    window_start: int,
+    window_stop: int,
+    window_step: int,
+    std_start: float,
+    std_stop: float,
+    std_step: float,
+    price_column: str = 'midprice'
+) -> pd.DataFrame:
+    """
+    Optimize Bollinger Bands parameters using multiprocessing.
+    
+    This function performs grid search optimization on Bollinger Bands parameters
+    using all available CPU cores to maximize performance.
+    
+    Parameters:
+    minute_data (pd.DataFrame): DataFrame with minute-level market data
+    window_start (int): Starting value for time window
+    window_stop (int): Ending value for time window
+    window_step (int): Step size for time window
+    std_start (float): Starting value for standard deviations
+    std_stop (float): Ending value for standard deviations
+    std_step (float): Step size for standard deviations
+    price_column (str): Name of the price column to use
+    
+    Returns:
+    pd.DataFrame: DataFrame with optimization results sorted by PnL
+    
+    Example:
+    >>> results = optimize_parameters(
+    ...     minute_data=data,
+    ...     window_start=60,
+    ...     window_stop=1440,
+    ...     window_step=100,
+    ...     std_start=1.0,
+    ...     std_stop=3.0,
+    ...     std_step=0.5
+    ... )
+    """
+    import numpy as np
+    
+    # Generate parameter ranges to test
+    window_range = np.arange(window_start, window_stop + window_step, window_step, dtype=int)
+    std_range = np.arange(std_start, std_stop + std_step, std_step)
+    
+    # Create list of parameters to test
+    parameters_to_test = [
+        {
+            'window': w,
+            'num_std_dev': s,
+            'minute_data': minute_data,
+            'price_column': price_column
+        }
+        for w in window_range
+        for s in std_range
+    ]
+    
+    print(f"Starting optimization with {len(parameters_to_test)} parameter combinations...")
+    print(f"Using {os.cpu_count()} cores for parallel computation.")
+    
+    # Execute multicore optimization
+    results_summary = []
+    max_workers = os.cpu_count() or 1
+    
+    with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
+        # Use executor.map with tqdm to monitor progress
+        for result in tqdm(
+            executor.map(process_params_worker, parameters_to_test),
+            total=len(parameters_to_test),
+            desc='Parameter optimization'
+        ):
+            results_summary.append(result)
+    
+    # Convert results to DataFrame and sort by PnL
+    results_df = pd.DataFrame(results_summary)
+    results_df = results_df.sort_values('total_pnl', ascending=False)
+    
+    print(f"\n=== OPTIMIZATION COMPLETED ===")
+    print(f"Tested {len(results_df)} parameter sets")
+    if not results_df.empty:
+        print(f"Best result: {results_df.iloc[0]['total_pnl']:.2f} pips")
+        print(f"Optimal parameters: window={results_df.iloc[0]['window']}, "
+              f"std_dev={results_df.iloc[0]['num_std_dev']}")
+    
+    return results_df
+
+
+def plot_top_equity_curves(
+    results_df: pd.DataFrame,
+    minute_data: pd.DataFrame,
+    top_n: int = 5,
+    price_column: str = 'midprice'
+) -> None:
+    """
+    Plot equity curves for the top N parameter configurations.
+    
+    Parameters:
+    results_df (pd.DataFrame): DataFrame with optimization results
+    minute_data (pd.DataFrame): DataFrame with original market data
+    top_n (int): Number of equity curves to plot (default: 5)
+    price_column (str): Name of the price column to use
+    
+    Raises:
+    ImportError: If matplotlib is not available
+    """
+    try:
+        import matplotlib.pyplot as plt
+        from backtester import indicators
+    except ImportError as e:
+        print(f"Error importing required libraries: {e}")
+        return
+    
+    if results_df.empty:
+        print("No results available for plotting.")
+        return
+    
+    # Select top N parameters
+    best_params = results_df.head(top_n)
+    
+    plt.figure(figsize=(14, 8))
+    
+    for i, (_, row) in enumerate(best_params.iterrows()):
+        w, s = int(row['window']), float(row['num_std_dev'])
+        
+        # Recalculate Bollinger Bands and run backtest
+        df_opt = indicators.bollinger_bands(
+            minute_data, 
+            price_column=price_column, 
+            window=w, 
+            num_std_dev=s
+        ).dropna()
+        
+        if len(df_opt) > 100:  # Verify sufficient data
+            bt_opt = Backtest(df_opt)
+            bt_opt.run()
+            trades_opt = bt_opt.get_trades_dataframe()
+            
+            if not trades_opt.empty:
+                # Plot equity curve
+                equity_series = trades_opt.set_index('Exit_Time')['Cumulative_PnL']
+                plt.plot(
+                    equity_series.index, 
+                    equity_series.values,
+                    label=f"#{i+1}: w={w}, std={s:.1f} (PnL: {row['total_pnl']:.1f})",
+                    linewidth=2
+                )
+    
+    plt.title(f"Top {top_n} Equity Curves - Parameter Optimization", fontsize=16)
+    plt.xlabel("Time", fontsize=12)
+    plt.ylabel("Cumulative PnL (pips)", fontsize=12)
+    plt.legend(loc='best')
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    plt.show()
+    
+    # Print summary statistics
+    print(f"\n=== TOP {top_n} CONFIGURATIONS ===")
+    for i, (_, row) in enumerate(best_params.iterrows()):
+        print(f"#{i+1}: Window={int(row['window'])}, Std={row['num_std_dev']:.1f} "
+              f"-> PnL: {row['total_pnl']:.2f} pips, "
+              f"Trades: {row['total_trades']}, "
+              f"Win Rate: {row['win_rate']:.1f}%")
+
+
+# Export functions for easy import
+__all__ = [
+    'Backtest',
+    'backtest_core',
+    'process_params_worker',
+    'optimize_parameters', 
+    'plot_top_equity_curves'
+]

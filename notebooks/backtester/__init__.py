@@ -65,6 +65,11 @@ from .visualization import (
     create_performance_dashboard
 )
 
+from .walk_forward import (
+    walk_forward_optimization,
+    plot_wfo_results
+)
+
 # Define what gets imported with "from backtester import *"
 __all__ = [
     # Data loading
@@ -92,5 +97,9 @@ __all__ = [
     'plot_interactive_cumulative_pnl',
     'compare_backtest_vs_real_balance',
     'plot_trade_distribution',
-    'create_performance_dashboard'
+    'create_performance_dashboard',
+    
+    # Walk Forward Optimization
+    'walk_forward_optimization',
+    'plot_wfo_results'
 ]
