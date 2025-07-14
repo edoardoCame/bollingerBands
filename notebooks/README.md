@@ -68,16 +68,39 @@ This folder contains Jupyter notebooks for advanced trading strategy analysis, p
 - **Equal-Weight Strategy**: Diversified portfolio across multiple currency pairs
 - **Weekly Rebalancing**: Systematic rebalancing to maintain target allocations
 - **Risk Metrics**: Comprehensive risk assessment including drawdown analysis
-# Notebooks
+## Notebooks
 
-Questa cartella contiene tutti i notebook di analisi, ottimizzazione e strumenti di supporto del progetto.
+Struttura:
+```
+notebooks/
+├── backtester/
+├── MT5 REPORTS/
+├── risk management/
+├── temp tools/
+├── portfolioopt.ipynb
+├── volatility_check.ipynb
+└── README.md
+```
 
-Contenuto:
+Categorie:
+- Portfolio Management: ottimizzazione/ribilanciamento portafoglio
+- Volatility & Regime Analysis: volatilità, autocorrelazione, regimi
+- Risk Management: filtri drawdown, metriche rischio
+- MT5 Reports: analisi risultati MetaTrader 5
+- Temp Tools: strumenti temporanei
 
-- MT5 REPORTS/ : Analisi risultati MetaTrader 5
-- risk management/ : Notebook su gestione del rischio e filtri
-- temp tools/ : Strumenti temporanei e file di supporto
-- portfolioopt.ipynb : Ottimizzazione di portafoglio
-- volatility_check.ipynb : Analisi base della volatilità
-- README.md : Questo file
+**Come usare i moduli nei notebook (spiegazione estensiva):**
+Importa funzioni dai moduli Python per:
+- Applicare filtri rolling drawdown
+- Calcolare pesi dinamici
+- Ottimizzare parametri e analizzare performance
+
+Esempio:
+```python
+from risk_management.dynamic_portfolio_modules.filters import apply_rolling_drawdown_filter
+from risk_management.dynamic_portfolio_modules.utils import calculate_momentum_weights
+# ...
+```
+
+Per dettagli tecnici sui moduli, vedi `risk management/dynamic_portfolio_modules/README_REFACTORING.md`.
 
