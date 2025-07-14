@@ -21,7 +21,7 @@ import numpy as np
 from typing import Dict, Tuple, Optional
 
 
-def load_trading_data(data_path: str = "/workspaces/bollingerBands/DATA") -> Tuple[Dict, pd.DataFrame, pd.DataFrame]:
+def load_trading_data(data_path: str = "/home/edocame/Desktop/bollingerBands/DATA") -> Tuple[Dict, pd.DataFrame, pd.DataFrame]:
     """
     Carica tutti i file CSV di trading dalla cartella specificata e li combina
     in un dataset coerente per l'analisi di portfolio.
