@@ -304,8 +304,11 @@ def process_params_worker(params: Dict[str, Any]) -> Dict[str, Any]:
         - 'win_rate': Percentage of winning trades
         - 'max_drawdown': Maximum drawdown
     """
-    # Local import to avoid pickling issues
-    from backtester import indicators
+    # Local imports to avoid pickling issues
+    import sys
+    import os
+    sys.path.append('/home/edocame/Desktop/bollingerBands')
+    from modules.backtester import indicators
     
     w = params['window']
     s = params['num_std_dev']
@@ -454,7 +457,9 @@ def plot_top_equity_curves(
     """
     try:
         import matplotlib.pyplot as plt
-        from backtester import indicators
+        import sys
+        sys.path.append('/home/edocame/Desktop/bollingerBands')
+        from modules.backtester import indicators
     except ImportError as e:
         print(f"Error importing required libraries: {e}")
         return

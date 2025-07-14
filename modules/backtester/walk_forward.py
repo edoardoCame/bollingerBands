@@ -12,7 +12,99 @@ from typing import Dict, Any, List, Optional
 from datetime import timedelta
 
 from . import indicators, backtest_engine
-from .backtest_engine import optimize_parameters
+
+
+def _optimize_parameters_wfo(
+    minute_data: pd.DataFrame,
+    window_start: int,
+    window_stop: int,
+    window_step: int,
+    std_start: float,
+    std_stop: float,
+    std_step: float,
+    price_column: str = 'midprice'
+) -> pd.DataFrame:
+    """
+    Optimize parameters for walk forward optimization using single-threaded approach.
+    This avoids multiprocessing import issues.
+    """
+    import numpy as np
+    from tqdm import tqdm
+    
+    # Generate parameter ranges to test
+    window_range = np.arange(window_start, window_stop + window_step, window_step, dtype=int)
+    std_range = np.arange(std_start, std_stop + std_step, std_step)
+    
+    # Create list of parameters to test
+    parameters_to_test = [
+        {'window': w, 'num_std_dev': s}
+        for w in window_range
+        for s in std_range
+    ]
+    
+    print(f"Starting optimization with {len(parameters_to_test)} parameter combinations...")
+    print("Using single-threaded approach for reliability.")
+    
+    # Execute single-threaded optimization
+    results_summary = []
+    
+    for params in tqdm(parameters_to_test, desc='Parameter optimization'):
+        w = params['window']
+        s = params['num_std_dev']
+        
+        try:
+            # Calculate Bollinger Bands for current parameters
+            df = indicators.bollinger_bands(
+                minute_data, 
+                price_column=price_column, 
+                window=w, 
+                num_std_dev=s
+            ).dropna()
+            
+            # Check if we have sufficient data
+            if len(df) <= 50:
+                result = {
+                    'window': w,
+                    'num_std_dev': s,
+                    'total_trades': 0,
+                    'total_pnl': 0.0,
+                    'win_rate': 0.0,
+                    'max_drawdown': 0.0
+                }
+            else:
+                # Execute backtest
+                bt = backtest_engine.Backtest(df)
+                bt.run()
+                m = bt.performance_metrics
+                
+                result = {
+                    'window': w,
+                    'num_std_dev': s,
+                    'total_trades': m.get('total_trades', 0),
+                    'total_pnl': m.get('total_pnl', 0.0),
+                    'win_rate': m.get('win_rate', 0.0),
+                    'max_drawdown': m.get('max_drawdown', 0.0)
+                }
+            
+            results_summary.append(result)
+            
+        except Exception as e:
+            print(f"Error processing params w={w}, s={s}: {e}")
+            result = {
+                'window': w,
+                'num_std_dev': s,
+                'total_trades': 0,
+                'total_pnl': 0.0,
+                'win_rate': 0.0,
+                'max_drawdown': 0.0
+            }
+            results_summary.append(result)
+    
+    # Convert results to DataFrame and sort by PnL
+    results_df = pd.DataFrame(results_summary)
+    results_df = results_df.sort_values('total_pnl', ascending=False)
+    
+    return results_df
 
 
 def walk_forward_optimization(
@@ -127,7 +219,7 @@ def walk_forward_optimization(
         # Optimize parameters on historical data only
         try:
             # Run optimization on the lookback period
-            opt_results = optimize_parameters(
+            opt_results = _optimize_parameters_wfo(
                 minute_data=opt_data,
                 window_start=window_start,
                 window_stop=window_stop,
