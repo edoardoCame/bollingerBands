@@ -15,4 +15,4 @@ Use these notebooks for:
 - Live/backtest performance comparison
 - Single trade analysis
 
-For advanced filters and risk management, see the modules in `risk management/dynamic_portfolio_modules/`.
+For advanced filters and risk management, see the modules in `modules/dynamic_portfolio_modules/`.

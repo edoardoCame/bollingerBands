@@ -21,7 +21,7 @@ drawdown filter/
 **Rolling Drawdown Filter (extensive explanation):**
 Monitors drawdown over a rolling window (e.g., 90 days) and stops the strategy if drawdown exceeds a threshold. During the stop, the balance remains constant. The strategy restarts only if drawdown recovers above a restart threshold. No lookahead bias: the loss that triggers the stop is always included in the filtered equity.
 
-For batch/production use, leverage the Python modules in `risk management/dynamic_portfolio_modules/filters.py`.
+For batch/production use, leverage the Python modules in `modules/dynamic_portfolio_modules/filters.py`.
 - For production or batch filtering, use the modular code in `dynamic_portfolio_modules/`
 
 ## Contributing

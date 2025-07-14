@@ -97,10 +97,10 @@ Import functions from Python modules to:
 
 Example:
 ```python
-from risk_management.dynamic_portfolio_modules.filters import apply_rolling_drawdown_filter
-from risk_management.dynamic_portfolio_modules.utils import calculate_momentum_weights
+from modules.dynamic_portfolio_modules.filters import apply_rolling_drawdown_filter
+from modules.dynamic_portfolio_modules.utils import calculate_momentum_weights
 # ...
 ```
 
-For technical details on the modules, see `risk management/dynamic_portfolio_modules/README_REFACTORING.md`.
+For technical details on the modules, see `modules/dynamic_portfolio_modules/README_REFACTORING.md`.
 

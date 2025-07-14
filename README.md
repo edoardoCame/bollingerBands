@@ -2,7 +2,35 @@ bollingerBands/
 
 # BollingerBands: Backtesting & Risk Management Suite
 
-## 📦 Project Structure (dettagliata)
+## Here you find:
+- `fil## Essential Installation
+```bash
+pip install pandas numpy matplotlib plotly numba
+```
+
+## Essential Usage Example
+```python
+from modules.backtester import data_loader, indicators, backtest_engine
+data = data_loader.load_parquet_data('file.parquet')
+minute_data = data_loader.prepare_minute_data(data)
+data_with_bands = indicators.bollinger_bands(minute_data, window=1440, num_std_dev=1.0)
+backtester = backtest_engine.Backtest(data_with_bands.dropna())
+results = backtester.run()
+backtester.print_performance_summary()
+```
+
+## Further Information
+- `notebooks/backtester/` : Complete backtest examples
+- `notebooks/risk management/` : Risk management, filters, portfolio notebooks
+- `modules/dynamic_portfolio_modules/README_REFACTORING.md` : Technical module detailsawdown filters (automatic strategy stop on drawdown, no lookahead bias)
+- `portfolio_rebalancer.py`: Dynamic portfolio rebalancing (momentum, sharpe, top N, equal, risk parity weighting)
+- `performance_metrics.py`: Advanced risk/return metrics (VaR, ES, rolling metrics)
+- `optimization.py`: Grid search and parameter optimization
+- `linearity_analysis.py`: Equity curve linearity analysis (R², linearity score)
+- `utils.py`, `data_loader.py`, ...
+
+**Rolling Drawdown Filter (extensive explanation):**
+The rolling drawdown filter monitors drawdown over a rolling window (e.g., 90 days) and stops the strategy if drawdown exceeds a threshold. During the stop, the balance remains constant. The strategy restarts only if drawdown recovers above a restart threshold. No lookahead bias: the loss that triggers the stop is always included in the filtered equity.Structure (dettagliata)
 
 ```
 bollingerBands/
@@ -10,7 +38,7 @@ bollingerBands/
 │   ├── audjpy_1440_01.csv
 │   ├── audjpy_14d_1.csv
 │   ├── ...
-├── notebooks/
+├── modules/
 │   ├── backtester/
 │   │   ├── __init__.py
 │   │   ├── data_loader.py
@@ -18,6 +46,20 @@ bollingerBands/
 │   │   ├── backtest_engine.py
 │   │   ├── visualization.py
 │   │   ├── utils.py
+│   │   └── walk_forward.py
+│   └── dynamic_portfolio_modules/
+│       ├── __init__.py
+│       ├── data_loader.py
+│       ├── filters.py
+│       ├── linearity_analysis.py
+│       ├── optimization.py
+│       ├── performance_metrics.py
+│       ├── portfolio_rebalancer.py
+│       ├── utils.py
+│       ├── visualization.py
+│       └── README_REFACTORING.md
+├── notebooks/
+│   ├── backtester/
 │   │   ├── example_usage.ipynb
 │   │   └── README.md
 │   ├── MT5 REPORTS/
@@ -26,16 +68,6 @@ bollingerBands/
 │   │   ├── mt5_analysis_clean.ipynb
 │   │   └── README.md
 │   ├── risk management/
-│   │   ├── dynamic_portfolio_modules/
-│   │   │   ├── __init__.py
-│   │   │   ├── data_loader.py
-│   │   │   ├── filters.py
-│   │   │   ├── linearity_analysis.py
-│   │   │   ├── optimization.py
-│   │   │   ├── performance_metrics.py
-│   │   │   ├── portfolio_rebalancer.py
-│   │   │   ├── utils.py
-│   │   │   └── README_REFACTORING.md
 │   │   ├── drawdown filter/
 │   │   │   ├── autocorrelation.ipynb
 │   │   │   ├── consecutive wins.ipynb
@@ -49,27 +81,27 @@ bollingerBands/
 │   │   ├── convert to parquet.ipynb
 │   │   ├── equity comparison.ipynb
 │   │   └── ...
-│   ├── README.md
+│   └── README.md
 ├── README.md
 ```
 
-## Moduli Core (spiegazione estensiva)
+## Core Modules (extensive explanation)
 
-### backtester/
-Contiene tutto il necessario per:
-- Caricare dati tick/minuto/balance (`data_loader.py`)
-- Calcolare indicatori tecnici (Bollinger Bands, SMA, EMA, RSI, ecc. in `indicators.py`)
-- Eseguire strategie mean-reversion sulle Bollinger Bands (`backtest_engine.py`)
-- Analizzare risultati: PnL, drawdown, Sharpe, winrate, equity curve (`utils.py`)
-- Visualizzare performance e confrontare con dati reali (`visualization.py`)
+### modules/backtester/
+Contains everything needed to:
+- Load tick/minute/balance data (`data_loader.py`)
+- Calculate technical indicators (Bollinger Bands, SMA, EMA, RSI, etc. in `indicators.py`)
+- Run mean-reversion strategies on Bollinger Bands (`backtest_engine.py`)
+- Analyze results: PnL, drawdown, Sharpe, winrate, equity curve (`utils.py`)
+- Visualize performance and compare with real data (`visualization.py`)
 
-**Come funziona:**
-1. Carichi i dati storici (tick/minuto/balance)
-2. Calcoli le Bollinger Bands o altri indicatori
-3. Esegui il backtest della strategia
-4. Analizzi e visualizzi i risultati
+**How it works:**
+1. Load historical data (tick/minute/balance)
+2. Calculate Bollinger Bands or other indicators
+3. Run the strategy backtest
+4. Analyze and visualize the results
 
-### risk management/dynamic_portfolio_modules/
+### modules/dynamic_portfolio_modules/
 Qui trovi:
 - `filters.py`: Filtri rolling drawdown (stop automatico strategie in drawdown, senza lookahead bias)
 - `portfolio_rebalancer.py`: Ribilanciamento dinamico portafoglio (pesatura momentum, sharpe, top N, equal, risk parity)
