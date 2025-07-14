@@ -1,7 +1,7 @@
 
 ## MT5 REPORTS
 
-Struttura:
+Structure:
 ```
 MT5 REPORTS/
 ├── deals.ipynb
@@ -10,9 +10,9 @@ MT5 REPORTS/
 ├── README.md
 ```
 
-Usa questi notebook per:
-- Analisi risultati ottimizzazione MT5
-- Confronto performance live/backtest
-- Analisi trade singoli
+Use these notebooks for:
+- MT5 optimization results analysis
+- Live/backtest performance comparison
+- Single trade analysis
 
-Per filtri avanzati e gestione rischio, vedi i moduli in `risk management/dynamic_portfolio_modules/`.
+For advanced filters and risk management, see the modules in `risk management/dynamic_portfolio_modules/`.

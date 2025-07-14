@@ -1,7 +1,7 @@
 
 ## backtester
 
-Struttura:
+Structure:
 ```
 backtester/
 ├── data_loader.py
@@ -13,12 +13,12 @@ backtester/
 ├── README.md
 ```
 
-**Cosa fa (spiegazione estensiva):**
-Permette di:
-- Caricare dati tick/minuto/balance
-- Calcolare indicatori tecnici (Bollinger Bands, SMA, EMA, RSI)
-- Eseguire strategie mean-reversion sulle Bollinger Bands
-- Analizzare risultati: PnL, drawdown, Sharpe, winrate, equity curve
-- Visualizzare performance e confrontare con dati reali
+**What it does (extensive explanation):**
+Allows you to:
+- Load tick/minute/balance data
+- Calculate technical indicators (Bollinger Bands, SMA, EMA, RSI)
+- Run mean-reversion strategies on Bollinger Bands
+- Analyze results: PnL, drawdown, Sharpe, winrate, equity curve
+- Visualize performance and compare with real data
 
 MIT License

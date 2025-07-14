@@ -5,9 +5,10 @@ This folder contains notebooks and tools for volatility analysis, market regime 
 
 ## Contents
 
+drawdown filter/
 ## drawdown filter
 
-Struttura:
+Structure:
 ```
 drawdown filter/
 ├── autocorrelation.ipynb
@@ -17,10 +18,10 @@ drawdown filter/
 ├── README.md
 ```
 
-**Rolling Drawdown Filter (spiegazione estensiva):**
-Monitora il drawdown su una finestra mobile (es. 90 giorni) e blocca la strategia se il drawdown supera una soglia. Durante lo stop, il bilancio resta costante. La strategia riparte solo se il drawdown rientra sotto una soglia di restart. Nessun lookahead bias: la perdita che fa scattare lo stop viene sempre inclusa nell’equity filtrata.
+**Rolling Drawdown Filter (extensive explanation):**
+Monitors drawdown over a rolling window (e.g., 90 days) and stops the strategy if drawdown exceeds a threshold. During the stop, the balance remains constant. The strategy restarts only if drawdown recovers above a restart threshold. No lookahead bias: the loss that triggers the stop is always included in the filtered equity.
 
-Per uso batch/produzione, usa i moduli Python in `risk management/dynamic_portfolio_modules/filters.py`.
+For batch/production use, leverage the Python modules in `risk management/dynamic_portfolio_modules/filters.py`.
 - For production or batch filtering, use the modular code in `dynamic_portfolio_modules/`
 
 ## Contributing

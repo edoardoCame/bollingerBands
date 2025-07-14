@@ -70,7 +70,7 @@ This folder contains Jupyter notebooks for advanced trading strategy analysis, p
 - **Risk Metrics**: Comprehensive risk assessment including drawdown analysis
 ## Notebooks
 
-Struttura:
+Structure:
 ```
 notebooks/
 ├── backtester/
@@ -82,25 +82,25 @@ notebooks/
 └── README.md
 ```
 
-Categorie:
-- Portfolio Management: ottimizzazione/ribilanciamento portafoglio
-- Volatility & Regime Analysis: volatilità, autocorrelazione, regimi
-- Risk Management: filtri drawdown, metriche rischio
-- MT5 Reports: analisi risultati MetaTrader 5
-- Temp Tools: strumenti temporanei
+Categories:
+- Portfolio Management: portfolio optimization/rebalancing
+- Volatility & Regime Analysis: volatility, autocorrelation, regimes
+- Risk Management: drawdown filters, risk metrics
+- MT5 Reports: MetaTrader 5 results analysis
+- Temp Tools: temporary tools
 
-**Come usare i moduli nei notebook (spiegazione estensiva):**
-Importa funzioni dai moduli Python per:
-- Applicare filtri rolling drawdown
-- Calcolare pesi dinamici
-- Ottimizzare parametri e analizzare performance
+**How to use the modules in notebooks (extensive explanation):**
+Import functions from Python modules to:
+- Apply rolling drawdown filters
+- Calculate dynamic weights
+- Optimize parameters and analyze performance
 
-Esempio:
+Example:
 ```python
 from risk_management.dynamic_portfolio_modules.filters import apply_rolling_drawdown_filter
 from risk_management.dynamic_portfolio_modules.utils import calculate_momentum_weights
 # ...
 ```
 
-Per dettagli tecnici sui moduli, vedi `risk management/dynamic_portfolio_modules/README_REFACTORING.md`.
+For technical details on the modules, see `risk management/dynamic_portfolio_modules/README_REFACTORING.md`.
 
