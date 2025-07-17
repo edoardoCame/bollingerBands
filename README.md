@@ -220,10 +220,22 @@ top_configs = results.get_top_configurations(metric='profit_factor')
 
 ## 📖 Documentation
 
-- **Module Documentation**: See `modules/dynamic_portfolio_modules/README_REFACTORING.md` for detailed technical documentation
-- **Notebook Examples**: Explore `notebooks/` for comprehensive usage examples
-- **Risk Management Guide**: Check `notebooks/risk management/` for advanced risk control techniques
-- **MT5 Integration**: See `notebooks/MT5 REPORTS/` for MetaTrader integration examples
+### 📚 Complete Documentation Suite
+
+This repository includes comprehensive documentation for all skill levels:
+
+- **[📋 Documentation Index](docs/README.md)** - Navigate all available documentation
+- **[🔧 API Reference](docs/API_REFERENCE.md)** - Complete function and class documentation  
+- **[⚙️ Installation Guide](docs/INSTALLATION.md)** - Setup instructions and troubleshooting
+- **[🌟 Features Guide](docs/FEATURES.md)** - Advanced examples and use cases
+- **[📓 Notebooks Guide](notebooks/README.md)** - Interactive tutorials and examples
+
+### 🎯 Quick Links
+
+- **Getting Started**: Follow the [Installation Guide](docs/INSTALLATION.md) and try the [Basic Examples](notebooks/backtester/)
+- **Advanced Features**: Explore [Portfolio Management](docs/FEATURES.md#portfolio-management-features) and [Risk Control](docs/FEATURES.md#risk-management-features)
+- **Technical Details**: Review [Module Documentation](modules/dynamic_portfolio_modules/README_REFACTORING.md) and [API Reference](docs/API_REFERENCE.md)
+- **Live Trading**: Check [MT5 Integration](notebooks/README.md#metatrader-5-integration) for real-world implementation
 
 ## 🛠️ Development
 
