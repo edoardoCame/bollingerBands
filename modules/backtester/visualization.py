@@ -182,7 +182,7 @@ def plot_interactive_cumulative_pnl(
     fig.add_trace(go.Scatter(
         x=trades_df.index,
         y=trades_df['Cumulative_PnL'],
-        mode='lines+markers',
+        mode='lines',  # Solo linea continua
         name='Cumulative PnL',
         line=dict(color='blue', width=2)
     ))
