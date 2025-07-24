@@ -21,7 +21,8 @@ def backtest_core(
     midprice: np.ndarray,
     upper_band: np.ndarray,
     lower_band: np.ndarray,
-    middle_band: np.ndarray
+    middle_band: np.ndarray,
+    dates_array: np.ndarray = None  # New parameter for dates information
 ) -> List[Tuple[float, int, int, int]]:
     """
     Core backtesting logic implemented in Numba for performance.
@@ -32,6 +33,10 @@ def backtest_core(
     - Enter short when price crosses above upper band
     - Exit short when price crosses below middle band
     
+    Additional Friday close logic:
+    - Close all positions 15 minutes before market close on Friday
+    - Don't open new positions during the last 15 minutes on Friday
+    
     Parameters:
     bid (np.ndarray): Bid prices array.
     ask (np.ndarray): Ask prices array.
@@ -39,6 +44,10 @@ def backtest_core(
     upper_band (np.ndarray): Upper Bollinger Band array.
     lower_band (np.ndarray): Lower Bollinger Band array.
     middle_band (np.ndarray): Middle Bollinger Band array.
+    dates_array (np.ndarray): Array with encoded date information for Friday closing logic.
+                             Each element is an integer with format:
+                             - 1 for Friday in last 15 minutes
+                             - 0 for all other times
     
     Returns:
     List[Tuple[float, int, int, int]]: List of trades with (PnL, Direction, Entry_idx, Exit_idx).
@@ -52,10 +61,34 @@ def backtest_core(
     position = 0  # 0 = flat, 1 = long, -1 = short
     entry_idx = -1
     entry_price = 0.0
+    
+    # If no dates array is provided, create a default one (no Friday closing)
+    friday_close = np.zeros(n, dtype=np.int32) if dates_array is None else dates_array
 
     for i in range(1, n - 1):
-        # Entry logic
-        if position == 0:
+        # Check if we're in the last 15 minutes of Friday
+        is_friday_close_period = friday_close[i] == 1
+        
+        # Force close any open positions during Friday's last 15 minutes
+        if is_friday_close_period and position != 0:
+            exit_idx = i
+            if exit_idx < n:
+                if position == 1:  # Close long position
+                    exit_price = bid[exit_idx]  # Sell at bid
+                    pnl = (exit_price - entry_price) * 10000  # PnL in pips
+                    trades.append((pnl, 1, entry_idx, exit_idx))
+                else:  # Close short position
+                    exit_price = ask[exit_idx]  # Buy at ask
+                    pnl = (entry_price - exit_price) * 10000  # PnL in pips
+                    trades.append((pnl, -1, entry_idx, exit_idx))
+                
+                position = 0
+                entry_idx = -1
+                entry_price = 0.0
+                continue
+
+        # Entry logic - only if we're not in Friday's last 15 minutes
+        if position == 0 and not is_friday_close_period:
             # Long entry: cross below lower band
             if midprice[i-1] > lower_band[i-1] and midprice[i] < lower_band[i]:
                 position = 1
@@ -168,13 +201,53 @@ class Backtest:
         lower_band = self.data['lower_band'].to_numpy()
         middle_band = self.data['middle_band'].to_numpy()
 
+        # Prepare the Friday closing time array
+        friday_close_array = self._prepare_friday_close_array()
+
         # Execute the core backtesting logic
-        self.results = backtest_core(bid, ask, midprice, upper_band, lower_band, middle_band)
+        self.results = backtest_core(bid, ask, midprice, upper_band, lower_band, middle_band, friday_close_array)
         
         # Calculate performance metrics
         self._calculate_performance_metrics()
 
         return self.data
+        
+    def _prepare_friday_close_array(self) -> np.ndarray:
+        """
+        Prepare an array that marks the last 15 minutes of data available on Fridays.
+        In forex, markets operate 24 hours, so we simply take the last 15 minutes 
+        available in the data for each Friday.
+        
+        Returns:
+        np.ndarray: Array with 1's for Friday's last 15 minutes, 0's otherwise.
+        """
+        # Create an array filled with zeros
+        friday_close = np.zeros(len(self.data), dtype=np.int32)
+        
+        # Check if the DataFrame has a datetime index
+        if not isinstance(self.data.index, pd.DatetimeIndex):
+            return friday_close
+        
+        # Find all Fridays (weekday=4 in pandas)
+        fridays = self.data.index.weekday == 4
+        
+        # For each Friday, identify the last 15 minutes of available data
+        if any(fridays):
+            # Get unique dates where the day is Friday
+            friday_dates = self.data.index[fridays].normalize().unique()
+            
+            for date in friday_dates:
+                # Get data for this specific Friday
+                friday_data = self.data[self.data.index.date == date.date()]
+                
+                if len(friday_data) >= 15:  # Ensure we have at least 15 minutes
+                    # Get the indices of the last 15 minutes available for this Friday
+                    last_15_minutes_idx = friday_data.index[-15:]
+                    
+                    # Mark these indices in our array
+                    friday_close[self.data.index.isin(last_15_minutes_idx)] = 1
+        
+        return friday_close
 
     def _calculate_performance_metrics(self) -> None:
         """
