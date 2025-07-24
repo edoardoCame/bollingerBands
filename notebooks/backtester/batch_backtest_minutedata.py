@@ -15,8 +15,8 @@ DATA_DIR = '/media/edocame/HDD_2/data_python/03_BID_ASK_DATA'
 OUTPUT_DIR = '/media/edocame/HDD_2/data_python/BACKTESTED_STRATEGIES_RAW'
 
 # Backtest parameters
-WINDOW = 7200
-NUM_STD_DEV = 0.5
+WINDOW = 20160
+NUM_STD_DEV = 1
 PRICE_COLUMN = 'midprice'
 
 # Find all main *_MINUTEDATA.parquet files
