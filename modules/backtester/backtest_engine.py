@@ -230,24 +230,24 @@ class Backtest:
         
         # Find all Fridays (weekday=4 in pandas)
         fridays = self.data.index.weekday == 4
+        if not np.any(fridays):
+            return friday_close
         
-        # For each Friday, identify the last 15 minutes of available data
-        if any(fridays):
-            # Get unique dates where the day is Friday
-            friday_dates = self.data.index[fridays].normalize().unique()
-            
-            for date in friday_dates:
-                # Get data for this specific Friday
-                friday_data = self.data[self.data.index.date == date.date()]
-                
-                if len(friday_data) >= 15:  # Ensure we have at least 15 minutes
-                    # Get the indices of the last 15 minutes available for this Friday
-                    last_15_minutes_idx = friday_data.index[-15:]
-                    
-                    # Mark these indices in our array
-                    friday_close[self.data.index.isin(last_15_minutes_idx)] = 1
-        
+        # Get Friday dates and their positions
+        friday_dates = self.data.index[fridays].normalize()
+        # Group by normalized date and get last 15 indices for each Friday
+        # Use pandas groupby for vectorized operation
+        idx = self.data.index
+        friday_df = pd.DataFrame({'idx': idx, 'date': idx.normalize(), 'is_friday': fridays})
+        # Only Fridays
+        friday_df = friday_df[friday_df['is_friday']]
+        # Group by date and get last 15 indices for each Friday
+        last_15_idx = friday_df.groupby('date')['idx'].apply(lambda x: x[-15:]).explode().values
+        # Mark these indices in our array
+        friday_close[self.data.index.isin(last_15_idx)] = 1
         return friday_close
+
+
 
     def _calculate_performance_metrics(self) -> None:
         """
@@ -317,23 +317,32 @@ class Backtest:
             self.results, 
             columns=["PnL", "Direction", "Entry_idx", "Exit_idx"]
         )
-        
+
         # Add cumulative PnL
         trades_df["Cumulative_PnL"] = trades_df["PnL"].cumsum()
-        
+
         # Add timestamp information if available
         if len(self.results) > 0:
-            timestamps = []
+            exit_timestamps = []
+            entry_timestamps = []
             for trade in self.results:
-                exit_idx = trade[3]  # Exit index
-                if exit_idx < len(self.data):
-                    timestamp = self.data.index[exit_idx]
+                entry_idx = trade[2]  # Entry index
+                exit_idx = trade[3]   # Exit index
+                # Entry time
+                if entry_idx < len(self.data):
+                    entry_time = self.data.index[entry_idx]
                 else:
-                    timestamp = self.data.index[-1]
-                timestamps.append(timestamp)
-            
-            trades_df['Exit_Time'] = timestamps
-        
+                    entry_time = self.data.index[-1]
+                entry_timestamps.append(entry_time)
+                # Exit time
+                if exit_idx < len(self.data):
+                    exit_time = self.data.index[exit_idx]
+                else:
+                    exit_time = self.data.index[-1]
+                exit_timestamps.append(exit_time)
+            trades_df['Entry_Time'] = entry_timestamps
+            trades_df['Exit_Time'] = exit_timestamps
+
         return trades_df
 
     def print_performance_summary(self) -> None:
